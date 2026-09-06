@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Estadísticas globales{% endblock %}
+{% block content %}
+
+<h1>Estadísticas globales</h1>
+<p>Total de pedidos: {{ total_pedidos_global }}</p>
+<p>Total vendido: ${{ total_ventas }}</p>
+
+<h2 class="m-block-20">Productos más vendidos</h2>
+<canvas id="graficoProductos" style="max-height: 350px;"></canvas>
+
+<h2 class="m-block-20">Pedidos por usuario</h2>
+<canvas id="graficoUsuarios" style="max-height: 350px;"></canvas>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  new Chart(document.getElementById('graficoProductos'), {
+    type: 'bar',
+    data: {
+      labels: {{ labels_productos|safe }},
+      datasets: [{ label: 'Unidades vendidas', data: {{ data_productos|safe }}, backgroundColor: '#45062E' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  new Chart(document.getElementById('graficoUsuarios'), {
+    type: 'bar',
+    data: {
+      labels: {{ labels_usuarios|safe }},
+      datasets: [{ label: 'Pedidos', data: {{ data_usuarios|safe }}, backgroundColor: '#49A078' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+</script>
+{% endblock %}

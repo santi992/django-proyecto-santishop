@@ -1,0 +1,10 @@
+:root {
+  --v-color-primary: #45062e;
+  --v-color-primary-hover: #2e0420;
+  --v-color-secondary: #49a078;
+  --v-color-secondary-hover: #397f5f;
+  --v-color-bg-main: #ffe8d4;
+  --v-color-text-light: #ffffff;
+  --v-color-text-dark: #222222;
+  --v-color-border: #e0c9b3;
+}

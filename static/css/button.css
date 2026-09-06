@@ -1,0 +1,36 @@
+.button {
+  border: none;
+  cursor: pointer;
+  font-family: "Montserrat", Arial, sans-serif;
+  text-decoration: none;
+}
+
+.button-s {
+  padding: 0.3rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.button-m {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.primary-button {
+  background-color: var(--v-color-primary);
+  color: var(--v-color-text-light);
+}
+
+.primary-button:hover {
+  background-color: var(--v-color-primary-hover);
+}
+
+.secondary-button {
+  background-color: var(--v-color-secondary);
+  color: var(--v-color-text-light);
+}
+
+.secondary-button:hover {
+  background-color: var(--v-color-secondary-hover);
+}

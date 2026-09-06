@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Todos los pedidos{% endblock %}
+{% block content %}
+
+<div class="flex sp-btween al-center">
+  <h1>Todos los pedidos</h1>
+  <a href="{% url 'admin_order_export' %}" class="button button-m secondary-button">Exportar a Excel</a>
+</div>
+
+<ul>
+  {% for order in orders %}
+    <li>
+      <a href="{% url 'admin_order_detail' order.pk %}">Pedido #{{ order.pk }}</a>
+      - {{ order.user.username }} - {{ order.fecha|date:"d/m/Y" }} - ${{ order.total }}
+    </li>
+  {% empty %}
+    <li>No hay pedidos todavía.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

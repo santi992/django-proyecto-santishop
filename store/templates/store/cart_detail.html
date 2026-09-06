@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Carrito{% endblock %}
+{% block content %}
+
+<h1>Tu carrito</h1>
+
+{% if cart|length > 0 %}
+<table class="w100">
+  <thead>
+    <tr><th></th><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for item in cart %}
+    <tr class="m-block-20 border">
+      <td><img src="{{ item.product.imagen_principal }}" alt="{{ item.product.nombre }}" class="cart-thumb"></td>
+      <td>{{ item.product.nombre }}</td>
+      <td>{{ item.cantidad }}</td>
+      <td>${{ item.subtotal }}</td>
+      <td>
+        <form method="post" action="{% url 'cart_remove' item.product.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="button button-s secondary-button">Quitar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Total: ${{ cart.get_total }}</h2>
+<a href="{% url 'checkout' %}" class="button button-m primary-button m-block-20">Ir a pagar</a>
+
+{% else %}
+<p>Tu carrito está vacío.</p>
+{% endif %}
+
+{% endblock %}

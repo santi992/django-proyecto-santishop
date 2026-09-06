@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+
+<h1>Confirmar pedido</h1>
+<p>Total a pagar: <strong>${{ cart.get_total }}</strong></p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="button button-m primary-button">Confirmar pago</button>
+</form>
+
+{% endblock %}

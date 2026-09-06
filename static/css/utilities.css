@@ -1,0 +1,43 @@
+.flex {
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+}
+
+.sp-btween {
+  justify-content: space-between;
+}
+
+.al-center {
+  align-items: center;
+}
+
+.m-block-10 {
+  margin-block: 10px;
+}
+
+.m-block-20 {
+  margin-block: 20px;
+}
+
+.m-inl-10 {
+  margin-inline-start: 10px;
+}
+
+.m-inl-auto {
+  margin-inline: auto;
+}
+
+.max-900 {
+  max-width: 900px;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.border {
+  border: 2px solid var(--v-color-border);
+}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Admin: Usuarios{% endblock %}
+{% block content %}
+
+<h1>Usuarios</h1>
+
+<form method="get">
+  <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Username o email">
+  <button type="submit" class="button button-m primary-button">Buscar</button>
+</form>
+
+<a href="{% url 'admin_user_export' %}?q={{ request.GET.q }}" 
+class="button button-m secondary-button m-block-20">
+Exportar a Excel</a>
+
+<ul>
+  {% for u in users %}
+    <li>
+      {{ u.username }} ({{ u.email }})
+      {% if u.is_staff %} - ADMIN{% endif %}
+      {% if not u.is_active %} - INACTIVO{% endif %}
+      <a href="{% url 'admin_user_update' u.pk %}">Editar</a>
+      {% if u.is_active %}
+        <a href="{% url 'admin_user_deactivate' u.pk %}">Desactivar</a>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>No hay usuarios.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Admin: Productos{% endblock %}
+{% block content %}
+
+<div class="flex sp-btween al-center">
+  <h1>Productos (admin)</h1>
+  <div>
+    <a href="{% url 'admin_product_export' %}" class="button button-m secondary-button">Exportar a Excel</a>
+    <a href="{% url 'product_create' %}" class="button button-m primary-button">Nuevo producto</a>
+  </div>
+</div>
+
+<ul>
+  {% for product in products %}
+    <li class="flex al-center m-block-20 border">
+      <img src="{{ product.imagen_principal }}" alt="{{ product.nombre }}" class="cart-thumb">
+      <span>
+        {{ product.nombre }} - ${{ product.precio }} - Stock: {{ product.stock }}
+        - {{ product.category|default:"Sin categoría" }}
+        {% if not product.activo %} - INACTIVO{% endif %}
+      </span>
+      <a href="{% url 'product_update' product.pk %}"class="m-inl-10">Editar</a>
+      <a href="{% url 'product_images_manage' product.pk %}" class="m-inl-10">Imágenes</a>
+    </li>
+  {% empty %}
+    <li>No hay productos cargados.</li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}

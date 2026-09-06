@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Admin: Categorías{% endblock %}
+{% block content %}
+
+<div class="flex sp-btween al-center">
+  <h1>Categorías (admin)</h1>
+  <div>
+    <a href="{% url 'admin_category_export' %}" class="button button-m secondary-button">Exportar a Excel</a>
+    <a href="{% url 'category_create' %}" class="button button-m primary-button">Nueva categoría</a>
+  </div>
+</div>
+
+<ul>
+  {% for category in categories %}
+    <li>
+      {{ category.nombre }}
+      {% if not category.activa %} - INACTIVA{% endif %}
+      <a href="{% url 'category_update' category.pk %}">Editar</a>
+    </li>
+  {% empty %}
+    <li>No hay categorías cargadas.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

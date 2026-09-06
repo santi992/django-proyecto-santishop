@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Categorías{% endblock %}
+{% block content %}
+
+<h1>Categorías</h1>
+<ul>
+  {% for category in categories %}
+    <li>
+        <a href="{% url 'product_list' %}?categoria={{ category.id }}">
+        {{ category.nombre }}</a>
+    </li>
+  {% empty %}
+    <li>No hay categorías disponibles.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

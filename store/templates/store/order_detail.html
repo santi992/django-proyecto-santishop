@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Pedido #{{ order.pk }}{% endblock %}
+{% block content %}
+
+<h1>Pedido #{{ order.pk }}</h1>
+<p>Fecha: {{ order.fecha|date:"d/m/Y H:i" }}</p>
+<p>Estado: {{ order.get_estado_display }}</p>
+<p>Método de pago: {{ order.get_metodo_pago_display }}</p>
+
+<ul>
+  {% for item in order.items.all %}
+    <li>{{ item.cantidad }} x {{ item.product }} - ${{ item.subtotal }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Total: ${{ order.total }}</h2>
+
+{% endblock %}

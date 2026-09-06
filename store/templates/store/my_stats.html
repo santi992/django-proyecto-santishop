@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Mis estadísticas{% endblock %}
+{% block content %}
+
+<h1>Mis estadísticas</h1>
+<p>Total de pedidos: {{ total_pedidos }}</p>
+<p>Total gastado: ${{ total_gastado }}</p>
+
+<h2 class="m-block-20">Mis productos más comprados</h2>
+<ul>
+  {% for item in top_productos %}
+    <li>{{ item.product__nombre }} - {{ item.total_comprado }} unidades</li>
+  {% empty %}
+    <li>Todavía no compraste nada.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

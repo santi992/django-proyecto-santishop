@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.nombre }}{% endblock %}
+{% block content %}
+
+<h1>{{ product.nombre }}</h1>
+
+<div class="carousel">
+  <div class="carousel-track" id="carouselTrack">
+    {% if product.images.all %}
+      {% for img in product.images.all %}
+        <img src="{{ img.imagen.url }}" alt="{{ product.nombre }}" class="carousel-img">
+      {% endfor %}
+    {% else %}
+      <img src="/static/img/producto_generico.png" alt="Sin imagen" class="carousel-img">
+    {% endif %}
+  </div>
+  {% if product.images.count > 1 %}
+    <button onclick="moverCarrusel(-1)" class="carousel-btn carousel-btn-left">‹</button>
+    <button onclick="moverCarrusel(1)" class="carousel-btn carousel-btn-right">›</button>
+  {% endif %}
+</div>
+
+<p>{{ product.descripcion }}</p>
+<p><strong>${{ product.precio }}</strong></p>
+<p>Stock disponible: {{ product.stock }}</p>
+
+{% if user.is_authenticated %}
+  <form method="post" action="{% url 'cart_add' product.pk %}" class="flex al-center">
+    {% csrf_token %}
+    <input type="number" name="cantidad" value="1" min="1" max="{{ product.stock }}">
+    <button type="submit" class="button button-m primary-button m-inl-10">Añadir al carrito</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}">Iniciá sesión</a> para comprar este producto.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // carrusel muy simple: desplaza el track horizontalmente por índice
+  let indiceActual = 0;
+  const track = document.getElementById('carouselTrack');
+  const totalImagenes = track ? track.children.length : 0;
+
+  function moverCarrusel(direccion) {
+    indiceActual = (indiceActual + direccion + totalImagenes) % totalImagenes;
+    track.style.transform = `translateX(-${indiceActual * 100}%)`;
+  }
+</script>
+{% endblock %}

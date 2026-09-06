@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Imágenes de {{ product.nombre }}{% endblock %}
+{% block content %}
+
+<h1>Imágenes de {{ product.nombre }}</h1>
+<a href="{% url 'admin_product_list' %}" class="button button-m primary-button"
+>&larr; Volver a productos</a>
+
+<div class="product-grid m-block-20">
+  {% for image in product.images.all %}
+    <div class="product-card">
+      <img src="{{ image.imagen.url }}" alt="{{ product.nombre }}" class="product-thumb">
+      <form method="post" action="{% url 'product_image_delete' image.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="button button-s secondary-button m-block-20">Eliminar</button>
+      </form>
+    </div>
+  {% empty %}
+    <p>Este producto no tiene imágenes cargadas. Se muestra la imagen genérica por default.</p>
+  {% endfor %}
+</div>
+
+<h2 class="m-block-20">Agregar más imágenes</h2>
+<p>Para agregar imágenes nuevas, editá el producto completo:</p>
+<a href="{% url 'product_update' product.pk %}" class="button button-m primary-button m-block-20">Editar producto</a>
+
+{% endblock %}

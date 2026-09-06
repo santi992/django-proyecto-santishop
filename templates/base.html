@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Título para el navegador y los buscadores -->
+    <title>{% block title %}Santishop{% endblock %}</title>
+
+    <!-- Descripción de la página para los buscadores -->
+    <meta
+      name="description"
+      content="Proyecto Django para el Master de Desarrolo Web Full Stack de Conquerblocks"
+    />
+
+    <!-- Palabras clave para los buscadores -->
+    <meta
+      name="keywords"
+      content="conquerblocks, django, fullstack, full stack"
+    />
+
+    <!-- Autor de la página -->
+    <meta name="author" content="Santiago Sáanchez" />
+
+    <!-- Favicon de la página -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- Codificación-->
+    <meta charset="UTF-8" />
+
+    <!-- Para que la web sea responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Para algunos navegadores móviles -->
+    <meta name="theme-color" content="#45062e" />
+    
+    <!-- Fuentes tipográficas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Hoja de estilos -->
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/boilerplate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
+</head>
+<body>
+  <header>
+    <div class="flex sp-btween al-center">
+      <a href="{% url 'product_list' %}" class="logo">Santishop</a>
+      <nav class="flex al-center">
+        {% if user.is_authenticated %}
+
+            {% if user.is_staff and request.session.view_mode == 'cliente' %}
+            <!-- ADMIN, en modo cliente: ve los links de usuario común -->
+            <a href="{% url 'product_list' %}">Productos</a>
+            <a href="{% url 'category_list' %}">Categorías</a>
+            <a href="{% url 'cart_detail' %}">Carrito</a>
+            <a href="{% url 'order_list' %}">Mis pedidos</a>
+            <a href="{% url 'my_stats' %}">Mis estadísticas</a>
+            <a href="{% url 'profile_edit' %}">Mi perfil</a>
+
+            {% elif user.is_staff %}
+            <!-- ADMIN, en modo admin (default): ve solo los links de administración -->
+            <a href="{% url 'admin_product_list' %}">Admin productos</a>
+            <a href="{% url 'admin_category_list' %}">Admin categorías</a>
+            <a href="{% url 'admin_user_list' %}">Admin usuarios</a>
+            <a href="{% url 'admin_order_list' %}">Todos los pedidos</a>
+            <a href="{% url 'admin_stats' %}">Estadísticas globales</a>
+            <a href="{% url 'profile_edit' %}">Mi perfil</a>
+
+            {% else %}
+            <!-- usuario registrado normal: siempre ve los links de cliente -->
+            <a href="{% url 'product_list' %}">Productos</a>
+            <a href="{% url 'category_list' %}">Categorías</a>
+            <a href="{% url 'cart_detail' %}">Carrito</a>
+            <a href="{% url 'order_list' %}">Mis pedidos</a>
+            <a href="{% url 'my_stats' %}">Mis estadísticas</a>
+            <a href="{% url 'profile_edit' %}">Mi perfil</a>
+            {% endif %}
+
+            {% if user.is_staff %}
+            <!-- el botón de cambio de modo SOLO aparece si es admin -->
+            <form method="post" action="{% url 'toggle_view_mode' %}" style="display:inline;"
+            class="m-inl-10">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                {% if request.session.view_mode == 'cliente' %}
+                <button type="submit" class="button button-m secondary-button">Ver como admin</button>
+                {% else %}
+                <button type="submit" class="button button-m secondary-button">Ver como cliente</button>
+                {% endif %}
+            </form>
+            {% endif %}
+
+            <form method="post" action="{% url 'logout' %}" style="display:inline;"
+            class="m-inl-10">
+            {% csrf_token %}
+            <button type="submit" class="button button-m secondary-button">Salir</button>
+            </form>
+
+        {% else %}
+            <a href="{% url 'login' %}">Iniciar sesión</a>
+            <a href="{% url 'signup' %}">Registrarse</a>
+        {% endif %}
+        </nav>
+    </div>
+  </header>
+
+  <main>
+    {% if messages %}
+      {% for message in messages %}
+        <p class="message">{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
